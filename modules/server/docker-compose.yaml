@@ -1,0 +1,32 @@
+version: "3"
+services:
+  api:
+    container_name: "ms-api"
+    image: node:14.4.0
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_NAME: strapi
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: strapi
+      DATABASE_PASSWORD: strapi
+    links:
+      - postgres:postgres
+    volumes:
+      - ./src:/src
+    working_dir: /src
+    tty: true
+    ports:
+      - "1337:1337"
+    command: >
+      bash -c 'yarn && yarn develop'
+  postgres:
+    container_name: "ms-postgres-db"
+    image: postgres
+    environment:
+      POSTGRES_USER: strapi
+      POSTGRES_PASSWORD: strapi
+    volumes:
+      - ./db/pgsql-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
