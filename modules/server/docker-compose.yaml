@@ -13,7 +13,7 @@ services:
     links:
       - postgres:postgres
     volumes:
-      - ./src:/src
+      - .:/src
     working_dir: /src
     tty: true
     ports:
