@@ -1,0 +1,11 @@
+{
+  "name": "media-starter",
+  "version": "0.0.1",
+  "description": "Media starter kit project.",
+  "author": "kiiiyo <kiiiyo.jp@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "modules/*"
+  ]
+}
