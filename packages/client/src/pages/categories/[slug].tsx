@@ -6,6 +6,21 @@ import { getApi } from '@/utils/api'
 // ______________________________________________________
 //
 
+type Article = {
+  id: number
+  created_at: string
+  updated_at: string
+  title: string
+  slug: string
+  description: string
+  date: string
+  content: string
+  category: number
+  user: number
+  author: any
+  coverImage: any
+}
+
 type Category = {
   articles: any[]
   created_at: string
@@ -20,34 +35,38 @@ type Category = {
 // ______________________________________________________
 //
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log(context)
-  const categories = await getApi('categories')
-  return { props: { categories } }
+  const {
+    params: { slug },
+  } = context
+  const category = await getApi(`categories/?slug=${slug}`)
+
+  return { props: { category: category[0] } }
 }
 //
 // ______________________________________________________
 //
-const HomePage: NextPage<{
-  categories: Array<Category>
+const CategoriesPage: NextPage<{
+  category: Category
 }> = (props) => {
-  const { categories } = props
+  const {
+    category: { title, articles },
+  } = props
   return (
     <>
-      <h1>Welcome to Media Starter Kit</h1>
+      <h1>Category: {title}</h1>
       <ul>
-        {categories &&
-          categories.length > 0 &&
-          categories.map((category: Category, index) => {
-            const { title, description, slug } = category
-            const pageDirPath = `/categories/[slug]`
-            const pageRoutingPath = `/categories/${slug}`
+        {articles &&
+          articles.length > 0 &&
+          articles.map((article: Article, index) => {
+            const { title, slug } = article
+            const pageDirPath = `/articles/[slug]`
+            const pageRoutingPath = `/articles/${slug}`
 
             return (
               <li key={index}>
                 <Link href={pageDirPath} as={pageRoutingPath}>
                   <a>
                     <span>{title}</span>
-                    <span>{description}</span>
                   </a>
                 </Link>
               </li>
@@ -60,4 +79,4 @@ const HomePage: NextPage<{
 //
 // ______________________________________________________
 //
-export default HomePage
+export default CategoriesPage
