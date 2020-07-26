@@ -1,0 +1,29 @@
+singleQuote: true
+semi: false
+tabWidth: 2
+
+overrides:
+  - files: '*.json'
+    options:
+      parser: json
+  - files: '*.html'
+    options:
+      parser: html
+  - files:
+      - '*.md'
+      - '*.markdown'
+    options:
+      parser: markdown
+  - files:
+      - 'src/**/*.ts'
+    options:
+      parser: typescript
+  - files:
+      - '*.yml'
+      - '*.yaml'
+    options:
+      parser: yaml
+  - files:
+      - '*.graphql'
+    options:
+      parser: graphql
