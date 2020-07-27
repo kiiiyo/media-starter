@@ -1,36 +1,8 @@
 import { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
 //
+import { Domain } from '@/features'
 import { getApi } from '@/utils/api'
-//
-// ______________________________________________________
-//
-
-type Article = {
-  id: number
-  created_at: string
-  updated_at: string
-  title: string
-  slug: string
-  description: string
-  date: string
-  content: string
-  category: number
-  user: number
-  author: any
-  coverImage: any
-}
-
-type Category = {
-  articles: any[]
-  created_at: string
-  description: string
-  id: number
-  slug: string
-  title: string
-  updated_at: string
-}
-
 //
 // ______________________________________________________
 //
@@ -38,15 +10,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {
     params: { slug },
   } = context
-  const category = await getApi(`categories/?slug=${slug}`)
+  const data = await getApi(`categories/?slug=${slug}`)
 
-  return { props: { category: category[0] } }
+  return { props: { category: data[0] } }
 }
 //
 // ______________________________________________________
 //
 const CategoriesPage: NextPage<{
-  category: Category
+  category: Domain.Category.Interface
 }> = (props) => {
   const {
     category: { title, articles },
@@ -57,7 +29,7 @@ const CategoriesPage: NextPage<{
       <ul>
         {articles &&
           articles.length > 0 &&
-          articles.map((article: Article, index) => {
+          articles.map((article: Domain.Article.Interface, index) => {
             const { title, slug } = article
             const pageDirPath = `/articles/[slug]`
             const pageRoutingPath = `/articles/${slug}`

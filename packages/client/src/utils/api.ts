@@ -1,6 +1,7 @@
 export async function getApi<T>(apiName: string) {
-  const apiUrl = `${process.env.API_ENDPOINT}/${apiName}`
-  console.log(apiUrl)
+  const { API_ENDPOINT } = process.env
+  const apiUrl = `${API_ENDPOINT}/${apiName}`
+
   try {
     const headers = {
       'cache-control': 'no-cache',
@@ -12,8 +13,6 @@ export async function getApi<T>(apiName: string) {
     })
 
     const data: T = await response.json()
-
-    console.log(data)
 
     return data
   } catch (error) {
