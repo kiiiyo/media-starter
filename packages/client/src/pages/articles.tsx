@@ -9,25 +9,23 @@ import { getApi } from '@/utils/api'
 //
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   let defaultPage = 1
-  const defaultLimit = 3
 
   if (query.page && Number(query.page) > 0) {
     defaultPage = parseInt(query.page + '')
   }
 
-  const currentPage = +defaultPage === 1 ? 0 : (+defaultPage - 1) * defaultLimit
-
-  const totalPages = await getApi('articles/count')
+  const defaultLimit = 3
+  const currentItem = +defaultPage === 1 ? 0 : (+defaultPage - 1) * defaultLimit
+  const articleTotal = await getApi('articles/count')
   const data = await getApi(
-    `articles?_limit=${defaultLimit}&_start=${currentPage}`
+    `articles?_limit=${defaultLimit}&_start=${currentItem}`
   )
-  const lastPage = Math.ceil(totalPages / defaultLimit)
+  const lastPage = Math.ceil(articleTotal / defaultLimit)
 
   return {
     props: {
       collection: data,
       page: +defaultPage,
-      totalPages,
       lastPage,
     },
   }
@@ -38,7 +36,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 const HomePage: NextPage<{
   collection: Array<Domain.Article.Interface>
   page: number
-  totalPages: number
   lastPage: number
 }> = (props) => {
   const { collection, page, lastPage } = props
@@ -46,6 +43,7 @@ const HomePage: NextPage<{
   return (
     <>
       <h1>Welcome to Media Starter Kit</h1>
+      <p>Page:{`${page} / ${lastPage}`}</p>
       <ul>
         {collection &&
           collection.length > 0 &&
