@@ -3,13 +3,8 @@ services:
   api:
     container_name: "ms-api"
     image: node:14.4.0
-    environment:
-      DATABASE_CLIENT: postgres
-      DATABASE_NAME: strapi
-      DATABASE_HOST: postgres
-      DATABASE_PORT: 5432
-      DATABASE_USERNAME: strapi
-      DATABASE_PASSWORD: strapi
+    env_file:
+      - api.env
     links:
       - postgres:postgres
     volumes:
@@ -23,9 +18,8 @@ services:
   postgres:
     container_name: "ms-postgres-db"
     image: postgres
-    environment:
-      POSTGRES_USER: strapi
-      POSTGRES_PASSWORD: strapi
+    env_file:
+      - db.env
     volumes:
       - ./db/pgsql-data:/var/lib/postgresql/data
     ports:

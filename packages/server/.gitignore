@@ -113,3 +113,6 @@ coverage
 exports
 .cache
 build
+
+api.env
+db.env
