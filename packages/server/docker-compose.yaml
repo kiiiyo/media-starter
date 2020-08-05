@@ -3,8 +3,13 @@ services:
   api:
     container_name: "ms-api"
     image: node:14.4.0
-    env_file:
-      - api.env
+    environment:
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      ALGOLIA_APP_ID: ${ALGOLIA_APP_ID}
+      ALGOLIA_API_KEY: ${ALGOLIA_API_KEY}
     links:
       - postgres:postgres
     volumes:
@@ -15,11 +20,17 @@ services:
       - "1337:1337"
     command: >
       bash -c 'yarn && yarn develop'
+    logging:
+      driver: json-file
+      options:
+        max-file: "1"
+        max-size: 3m
   postgres:
     container_name: "ms-postgres-db"
     image: postgres
-    env_file:
-      - db.env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./db/pgsql-data:/var/lib/postgresql/data
     ports:
