@@ -3,6 +3,7 @@ import { AppProps } from 'next/app'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { createMuiTheme } from '@material-ui/core/styles'
+import globalStyles from '../styles/global'
 
 const theme = createMuiTheme({
   palette: {
@@ -32,6 +33,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Component {...pageProps} />
+      <style jsx global>
+        {globalStyles}
+      </style>
     </ThemeProvider>
   )
 }
