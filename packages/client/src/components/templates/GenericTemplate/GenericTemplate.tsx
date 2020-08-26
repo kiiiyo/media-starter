@@ -1,13 +1,14 @@
 import React, { FC } from 'react'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 //
+import { Atoms } from '@/components'
 
 /**
  * Interface
  */
 
 export interface GenericTemplateProps {
-  appBar: React.ReactNode
+  headerBar: React.ReactNode
   sidebar: React.ReactNode
   children: React.ReactNode
 }
@@ -18,26 +19,38 @@ export interface GenericTemplateProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      display: 'flex',
-    },
-    header: {
+    headerBar: {
+      position: 'fixed',
       zIndex: theme.zIndex.drawer + 1,
     },
-    sidebar: {},
-    main: {},
+    content: {
+      display: 'flex',
+      overflow: 'hidden',
+      paddingTop: theme.spacing(8),
+      [theme.breakpoints.up('lg')]: {
+        paddingLeft: 256,
+      },
+    },
   })
 )
 
+/**
+ * Presentational Component
+ */
+
 const GenericTemplate: FC<GenericTemplateProps> = (props) => {
-  const { children, appBar, sidebar } = props
+  const { children, headerBar, sidebar } = props
   const classes = useStyles()
   return (
-    <div className={classes.root}>
-      {appBar && <header className={classes.header}>{appBar}</header>}
-      {sidebar && <div className={classes.sidebar}>{sidebar}</div>}
-      {children && <main className={classes.main}>{children}</main>}
-    </div>
+    <>
+      {headerBar && <div className={classes.headerBar}>{headerBar}</div>}
+      {sidebar && sidebar}
+      {children && (
+        <main className={classes.content}>
+          <Atoms.Container maxWidth="md">{children}</Atoms.Container>
+        </main>
+      )}
+    </>
   )
 }
 
