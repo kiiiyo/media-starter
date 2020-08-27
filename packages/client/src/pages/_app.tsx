@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { AppProps } from 'next/app'
-import { ThemeProvider } from '@material-ui/core/styles'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { createMuiTheme } from '@material-ui/core/styles'
+//
+import { NavigationProvider } from '../contexts/NavigationContext'
+import globalStyles from '../styles/global'
 
 const theme = createMuiTheme({
   palette: {
@@ -18,6 +20,10 @@ const theme = createMuiTheme({
   },
 })
 
+/**
+ *
+ */
+
 const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     // Remove the server-side injected CSS.
@@ -31,7 +37,18 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Component {...pageProps} />
+      <NavigationProvider>
+        <Component {...pageProps} />
+      </NavigationProvider>
+      <style jsx global>
+        {globalStyles}
+      </style>
+      {/* TODO  */}
+      <style>
+        {`
+      #__next { height: 100%, width:100% }
+    `}
+      </style>
     </ThemeProvider>
   )
 }

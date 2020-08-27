@@ -5,16 +5,11 @@ import { Domain } from '@/features'
 import { getApi } from '@/utils/api'
 
 //
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-
-//
 // ______________________________________________________
 //
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const data = await getApi('categories')
-  return { props: { collection: data } }
+  //const data = await getApi('categories')
+  return { props: { collection: null } }
 }
 //
 // ______________________________________________________
@@ -25,11 +20,6 @@ const HomePage: NextPage<{
   const { collection } = props
   return (
     <>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">News</Typography>
-        </Toolbar>
-      </AppBar>
       <h1>Welcome to Media Starter Kit</h1>
       <ul>
         {collection &&
