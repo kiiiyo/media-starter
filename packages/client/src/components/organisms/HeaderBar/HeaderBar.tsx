@@ -29,7 +29,7 @@ const HeaderBar: FC = (props) => {
   const { handleDrawerDisplayConditio } = useNavigation()
 
   return (
-    <Atoms.AppBar>
+    <Atoms.AppBar color="default">
       <Atoms.Toolbar className={classes.customizeToolbar}>
         <Hidden lgUp={true}>
           <Atoms.IconButton

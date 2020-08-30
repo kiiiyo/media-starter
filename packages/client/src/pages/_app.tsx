@@ -1,24 +1,11 @@
 import React, { useEffect } from 'react'
 import { AppProps } from 'next/app'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 //
-import { NavigationProvider } from '../contexts/NavigationContext'
-import globalStyles from '../styles/global'
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#556cd6',
-    },
-    secondary: {
-      main: '#19857b',
-    },
-    background: {
-      default: '#fff',
-    },
-  },
-})
+import { NavigationProvider } from '@/contexts/NavigationContext'
+import globalStyle from '@/styles/global'
+import { theme } from '@/styles/theme'
 
 /**
  *
@@ -41,7 +28,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <Component {...pageProps} />
       </NavigationProvider>
       <style jsx global>
-        {globalStyles}
+        {globalStyle}
       </style>
       {/* TODO  */}
       <style>
